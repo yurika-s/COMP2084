@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HouseworkManager.Data;
 using HouseworkManager.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace HouseworkManager.Controllers
 {
+    [Authorize]
     public class TasksController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,8 +25,27 @@ namespace HouseworkManager.Controllers
         // GET: Tasks
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Tasks.Include(t => t.Group).Include(t => t.user);
-            return View(await applicationDbContext.ToListAsync());
+            string loginUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            var belongingGroups = await _context.GroupMembers.Where(g => g.UserID == loginUserId).ToListAsync();
+            var groupIds = new List<int>();
+            foreach (var item in belongingGroups)
+            {
+                groupIds.Add(item.GroupID);
+            }
+            var groups = await _context.Groups.Where(g => groupIds.Contains(g.GroupID)).ToArrayAsync();
+
+
+            Dictionary<string, dynamic> groupTasks = new Dictionary<string, dynamic>();
+
+            foreach (var item in groups)
+            {
+                var tasks = _context.Tasks.Where(t => t.GroupID == item.GroupID);
+                groupTasks.Add(item.Name, tasks);
+            }
+            ViewData["Tasks"] = groupTasks;
+
+            return View();
         }
 
         // GET: Tasks/Details/5
@@ -63,7 +85,7 @@ namespace HouseworkManager.Controllers
         {
             //if (ModelState.IsValid)
             //{
-                _context.Add(task);
+                _context.Add((Models.Task)task);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             //}

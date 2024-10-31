@@ -22,14 +22,14 @@
                 <select asp-for="UserID" class ="form-control" asp-items="ViewBag.UserID"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-info mt-2" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="mt-2">
+    <a asp-controller="Groups" asp-action="Details" asp-route-id="@ViewBag.DetailsGroupID">Back to List</a>
 </div>
 
 @section Scripts {

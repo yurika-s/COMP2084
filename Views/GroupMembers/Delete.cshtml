@@ -29,6 +29,8 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="GroupMemberID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <!-- <a asp-action="Index">Back to List</a>-->
+        <a asp-controller="Groups" asp-action="Details" asp-route-id="@Model.GroupID">Back to List</a>
+
     </form>
 </div>

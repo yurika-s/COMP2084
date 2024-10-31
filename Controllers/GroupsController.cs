@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HouseworkManager.Data;
 using HouseworkManager.Models;
+using System.Security.Claims;
 
 namespace HouseworkManager.Controllers
 {
@@ -22,7 +23,23 @@ namespace HouseworkManager.Controllers
         // GET: Groups
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Groups.ToListAsync());
+            // reffered to the page https://community.auth0.com/t/getting-currently-logged-user-in-web-api/6810/9
+            string loginUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            var adminstratingGroups = await _context.Groups.Where(g => g.AdministratorID == loginUserId).ToListAsync();
+
+            ViewData["AdminstratingGropus"] = adminstratingGroups;
+
+
+            var belongingGroups = await _context.GroupMembers.Where(g => g.UserID == loginUserId).ToListAsync();
+            var groupIds = new List<int>();
+            foreach (var item in belongingGroups)
+            {
+                groupIds.Add(item.GroupID);
+            }
+            var groups = await _context.Groups.Where(g => groupIds.Contains(g.GroupID)).ToListAsync();
+
+            return View(groups);
         }
 
         // GET: Groups/Details/5
@@ -40,12 +57,17 @@ namespace HouseworkManager.Controllers
                 return NotFound();
             }
 
+            var members = _context.GroupMembers.Include(g => g.Group).Include(g => g.user).Where(g => g.GroupID == id);
+            ViewBag.groupMembers = members;
             return View(@group);
         }
 
         // GET: Groups/Create
         public IActionResult Create()
         {
+            string loginUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            ViewData["AdministratorID"] = loginUserId;
+
             return View();
         }
 
@@ -54,7 +76,7 @@ namespace HouseworkManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GroupID,Name,Description")] Group @group)
+        public async Task<IActionResult> Create([Bind("GroupID,Name,Description,AdministratorID")] Group @group)
         {
             if (ModelState.IsValid)
             {
@@ -78,6 +100,7 @@ namespace HouseworkManager.Controllers
             {
                 return NotFound();
             }
+
             return View(@group);
         }
 
@@ -86,7 +109,7 @@ namespace HouseworkManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GroupID,Name,Description")] Group @group)
+        public async Task<IActionResult> Edit(int id, [Bind("GroupID,Name,Description,AdministratorID")] Group @group)
         {
             if (id != @group.GroupID)
             {
