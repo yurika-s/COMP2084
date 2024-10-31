@@ -24,14 +24,19 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group visually-hidden">
+                <!-- <label asp-for="AdministratorID" class="control-label"></label>-->
+                <input asp-for="AdministratorID" class="form-control" value="@Model.AdministratorID" />
+                <!--<span asp-validation-for="AdministratorID" class="text-danger"></span>-->
+            </div>
+            <div class="form-group mt-2">
+                <input type="submit" value="Save" class="btn btn-info" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
+<div class="mt-2">
     <a asp-action="Index">Back to List</a>
 </div>
 
