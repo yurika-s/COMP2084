@@ -24,3 +24,7 @@ body {
 [type=checkbox]::before {
     position: initial;
 }
+
+.nav-tabs{
+    border-bottom: 0;
+}
