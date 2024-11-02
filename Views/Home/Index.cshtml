@@ -9,9 +9,9 @@
     @if (SignInManager.IsSignedIn(User))
     {
     <div class="text-center pt-2">
-
-        <h1 class="display-4">Your Tasks</h1>     
-
+        <h1 class="display-4">Your Tasks</h1>
+        @if (Model != null && Model?.Count() > 0)
+        {
         <table class="table">
             <thead>
                 <tr>
@@ -61,17 +61,22 @@
                 }
             </tbody>
         </table>
+        }
+        else
+        {
+            <p>You have no task for now.</p>
+        }
     </div>
     }
     else
     {
     <div class="text-center  pt-5">
-            <h1 class="display-4">Welcom to Housework Manager</h1>
-            <h3>This is a great tool to manage your houseworks!</h3>
-            <div>
-                <button type="button" class="btn btn-danger btn-lg"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register Now!</a></button>
-                <button type="button" class="btn btn-success btn-lg"><a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a></button>
-           </div>
+        <h1 class="display-4">Welcome to Housework Manager</h1>
+        <h3>This is a great tool to manage your houseworks!</h3>
+        <div>
+            <button type="button" class="btn btn-danger btn-lg"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register Now!</a></button>
+            <button type="button" class="btn btn-success btn-lg"><a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a></button>
         </div>
+    </div>
     }
 

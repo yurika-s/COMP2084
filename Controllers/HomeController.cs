@@ -15,7 +15,6 @@ namespace HouseworkManager.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
-        //private SignInManager<IdentityUser> SignInManager;
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
@@ -28,8 +27,7 @@ namespace HouseworkManager.Controllers
             string loginUserId = User.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
             // reffered to this page https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ef/language-reference/method-based-query-syntax-examples-filtering
-            //string loginUserName = User.Identity?.Name;
-            var task = await _context.Tasks.Include(t => t.Group).Include(t => t.user).Where(t => t.user.Id == loginUserId).ToListAsync(); 
+            var task = await _context.Tasks.Include(t => t.Group).Include(t => t.User).Where(t => t.User.Id == loginUserId).ToListAsync(); 
             return View(task);
         }
 

@@ -5,93 +5,60 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Groups</h1>
-
-
-<h4 class="mt-3">Groups you manage</h4>
+<h1 class="display-4 text-center">Groups</h1>
+<div class="d-flex">
+    <h4 class="mt-2 me-3">Groups you manage</h4>
+    <button type="button" class="btn btn-info btn-sm"><a class="nav-link" asp-action="Create">Create New</a></button>
+</div>
 <hr />
-@if (ViewBag.AdminstratingGropus == null)
+@if (ViewBag.AdminstratingGropus.Count == 0)
 {
     <div>No Group</div>
 }else{
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="container">
+        <div class="row">
             @foreach (var item in ViewBag.AdminstratingGropus)
             {
-                <tr>
-                    <td>
-                        @item.Name
-                    </td>
-                    <td>
-                        @item.Description
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.GroupID">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.GroupID">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.GroupID">Delete</a>
-                    </td>
-                </tr>
+            <div class="col-md-3">
+                <div class="card border-info mb-3">
+                    <div class="card-header">@item.Name</div>
+                    <div class="card-body">
+                        <p class="card-text">@item.Description.</p>
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@item.GroupID">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.GroupID">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.GroupID">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             }
-        </tbody>
-    </table>
+        </div>
+    </div>
 }
-
-<p>
-    <button type="button" class="btn btn-info"><a class="nav-link" asp-action="Create">Create New</a></button>
-
-</p>
-
 
 <h4 class="mt-5">Groups you belong to</h4>
 <hr />
-@if (Model == null)
+@if (Model != null && Model?.Count() > 0)
 {
-    <div>No Group</div>
+        <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-3">
+                    <div class="card border-success mb-3">
+                        <div class="card-header">@Html.DisplayFor(modelItem => item.Name)</div>
+                        <div class="card-body">
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                            <div>
+                                <a asp-action="Details" asp-route-id="@item.GroupID">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 }else{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AdministratorID)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AdministratorID)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.GroupID">Details</a>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <div>No Group</div>
 }

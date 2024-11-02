@@ -29,21 +29,29 @@ namespace HouseworkManager.Controllers
 
             var belongingGroups = await _context.GroupMembers.Where(g => g.UserID == loginUserId).ToListAsync();
             var groupIds = new List<int>();
-            foreach (var item in belongingGroups)
-            {
-                groupIds.Add(item.GroupID);
-            }
-            var groups = await _context.Groups.Where(g => groupIds.Contains(g.GroupID)).ToArrayAsync();
-
-
             Dictionary<string, dynamic> groupTasks = new Dictionary<string, dynamic>();
-
-            foreach (var item in groups)
-            {
-                var tasks = _context.Tasks.Where(t => t.GroupID == item.GroupID);
-                groupTasks.Add(item.Name, tasks);
-            }
             ViewData["Tasks"] = groupTasks;
+            ViewData["IsShow"] = true;
+
+            if (belongingGroups.Count == 0)
+            {
+                ViewData["IsShow"] = false;
+            }
+            else
+            {
+                foreach (var item in belongingGroups)
+                {
+                    groupIds.Add(item.GroupID);
+                }
+                var groups = await _context.Groups.Where(g => groupIds.Contains(g.GroupID)).ToArrayAsync();
+
+                foreach (var item in groups)
+                {
+                    var tasks = await _context.Tasks.Where(t => t.GroupID == item.GroupID).ToArrayAsync();
+                    groupTasks.Add(item.Name, tasks);
+                }
+                ViewData["Tasks"] = groupTasks;
+            }
 
             return View();
         }
@@ -58,7 +66,7 @@ namespace HouseworkManager.Controllers
 
             var task = await _context.Tasks
                 .Include(t => t.Group)
-                .Include(t => t.user)
+                .Include(t => t.User)
                 .FirstOrDefaultAsync(m => m.TaskID == id);
             if (task == null)
             {
@@ -83,15 +91,9 @@ namespace HouseworkManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("TaskID,Name,Description,Deadline,Done,GroupID,UserID")] Models.Task task)
         {
-            //if (ModelState.IsValid)
-            //{
-                _context.Add((Models.Task)task);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            //}
-            ViewData["GroupID"] = new SelectList(_context.Groups, "GroupID", "Name", task.GroupID);
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", task.UserID);
-            return View(task);
+            _context.Add((Models.Task)task);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Tasks/Edit/5
@@ -124,29 +126,23 @@ namespace HouseworkManager.Controllers
                 return NotFound();
             }
 
-            //if (ModelState.IsValid)
-            //{
-                try
+            try
+            {
+                _context.Update(task);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TaskExists(task.TaskID))
                 {
-                    _context.Update(task);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!TaskExists(task.TaskID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
-                return RedirectToAction(nameof(Index));
-            //}
-            ViewData["GroupID"] = new SelectList(_context.Groups, "GroupID", "Name", task.GroupID);
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id", task.UserID);
-            return View(task);
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Tasks/Delete/5
@@ -159,7 +155,7 @@ namespace HouseworkManager.Controllers
 
             var task = await _context.Tasks
                 .Include(t => t.Group)
-                .Include(t => t.user)
+                .Include(t => t.User)
                 .FirstOrDefaultAsync(m => m.TaskID == id);
             if (task == null)
             {

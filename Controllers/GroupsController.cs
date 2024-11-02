@@ -57,7 +57,7 @@ namespace HouseworkManager.Controllers
                 return NotFound();
             }
 
-            var members = _context.GroupMembers.Include(g => g.Group).Include(g => g.user).Where(g => g.GroupID == id);
+            var members = _context.GroupMembers.Include(g => g.Group).Include(g => g.User).Where(g => g.GroupID == id);
             ViewBag.groupMembers = members;
             return View(@group);
         }

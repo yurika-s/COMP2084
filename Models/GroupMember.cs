@@ -17,6 +17,6 @@ namespace HouseworkManager.Models
         // reffered to this video https://www.youtube.com/watch?v=_l8pOjGeBZ8
         [Required]
         public string UserID { get; set; } // Required foreign key property
-        public IdentityUser user { get; set; } = null!; // Required reference navigation to principal
+        public IdentityUser User { get; set; } = null!; // Required reference navigation to principal
     }
 }

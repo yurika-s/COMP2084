@@ -63,7 +63,7 @@
                             @(i += 1)
                         </td>
                         <td>
-                            @item.user.UserName / @item.GroupMemberID 
+                            @item.User.UserName 
                         </td>
                         <td>
                             <a asp-controller="GroupMembers" asp-action="Edit" asp-route-id="@item.GroupMemberID">Edit</a> |
@@ -76,7 +76,7 @@
     }
     
     <div>
-        <button type="button" class="btn btn-info"><a class="nav-link" asp-controller="GroupMembers" asp-action="Create" asp-route-id="@Model?.GroupID">Add Member</a></button> | 
+        <button type="button" class="btn btn-info"><a class="nav-link" asp-controller="GroupMembers" asp-action="Create" asp-route-groupId="@Model?.GroupID">Add Member</a></button> | 
         <a asp-action="Index">Back to List</a>
     </div>
 </div>

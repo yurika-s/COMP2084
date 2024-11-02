@@ -44,7 +44,7 @@ namespace HouseworkManager.Data.Migrations
 
                     b.HasKey("GroupID");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("HouseworkManager.Models.GroupMember", b =>
@@ -68,7 +68,7 @@ namespace HouseworkManager.Data.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("GroupMembers");
+                    b.ToTable("GroupMembers", (string)null);
                 });
 
             modelBuilder.Entity("HouseworkManager.Models.Task", b =>
@@ -106,7 +106,7 @@ namespace HouseworkManager.Data.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Tasks");
+                    b.ToTable("Tasks", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

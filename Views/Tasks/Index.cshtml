@@ -4,68 +4,92 @@
     String[] tHeads = ["Done", "Name", "Description", "Deadline", "Assignee", ""];
 }
 
-<h1>Tasks</h1>
+<h1 class="display-4 text-center">Tasks</h1>
+@if (ViewBag.IsShow){
+    <p>
+        <button type="button" class="btn btn-info"><a class="nav-link" asp-action="Create">Create New</a></button>
+    </p>
+    <hr />
 
-<p>
-    <button type="button" class="btn btn-info"><a class="nav-link" asp-action="Create">Create New</a></button>
-</p>
+    <!-- Group Tab -->
+    <ul class="nav nav-tabs" role="tablist">
+    @foreach (KeyValuePair<string, dynamic> entry in ViewBag.Tasks)
+    {
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="tab" href="#@entry.Key" aria-selected="true" role="tab">@entry.Key</a>
+        </li>    
+    }
+    </ul>
 
-<!-- Group Tab -->
-<ul class="nav nav-tabs" role="tablist">
-@foreach (KeyValuePair<string, dynamic> entry in ViewBag.Tasks)
-{
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" data-bs-toggle="tab" href="#@entry.Key" aria-selected="true" role="tab">@entry.Key</a>
-    </li>    
-}
-</ul>
-
-<!-- Tab Contents -->
-<div id="myTabContent" class="tab-content mt-3">
-@foreach (KeyValuePair<string, dynamic> entry in ViewBag.Tasks)
-{
-     <div class="tab-pane fade" id="@entry.Key" role="tabpanel">
-
-    <table class="table mb-5">
-        <thead>
-            <tr>
-            @foreach (String head in tHeads)
+    <!-- Tab Contents -->
+    <div id="myTabContent" class="tab-content mt-3">
+        @if (ViewBag.Tasks.Count >0)
+        {
+            @foreach (KeyValuePair<string, dynamic> entry in ViewBag.Tasks)
             {
-                <th>@head</th>
-            }
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var task in entry.Value)
-            {
-                <tr>
-                    <td>
+            <div class="tab-pane fade" id="@entry.Key" role="tabpanel">
+                @if (entry.Value.Length == 0)
+                {
+                    <div>No Task</div>
+                }
+                else
+                {
+                    <table class="table mb-5">
+                        <thead>
+                            <tr>
+                            @foreach (String head in tHeads)
+                            {
+                                <th>@head</th>
+                            }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var task in entry.Value)
+                            {
+                                <tr>
+                                    <td>
+                                    @if (task.Done)
+                                    {
+                                        <input class="check-box" disabled="disabled" type="checkbox" checked>
 
-                        <input class="check-box" disabled="disabled" type="checkbox" value="@task.Done">
-                    </td>
-                    <td>
-                        @task.Name
-                    </td>
-                    <td>
-                        @task.Description
-                    </td>
-                    <td>
-                        @task.Deadline
-                    </td>
-                    <td>
-                        @task.UserID
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@task.TaskID">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@task.TaskID">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@task.TaskID">Delete</a>
-                    </td>
-                </tr>
+                                    }
+                                    else
+                                    {
+                                        <input class="check-box" disabled="disabled" type="checkbox">
+                                    }
+                                    </td>
+                                    <td>
+                                        @task.Name
+                                    </td>
+                                    <td>
+                                        @task.Description
+                                    </td>
+                                    <td>
+                                        @task.Deadline
+                                    </td>
+                                    <td>
+                                        @task.UserID
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@task.TaskID">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@task.TaskID">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@task.TaskID">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+             </div>
             }
-        </tbody>
-    </table>
+        }
+        else
+        {
+            <div>No Task</div>
+        }
     </div>
 }
-</div>
-
-<script src="~/js/task.js" asp-append-version="true"></script>
+else
+{
+    <p class="text-center">Please create a group before you manage tasks.</p>
+}
