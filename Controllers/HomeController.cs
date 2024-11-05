@@ -24,25 +24,22 @@ namespace HouseworkManager.Controllers
 
         public async Task<IActionResult> Index()
         {
+            ViewData["IsBelongToGroup"] = false;
             string loginUserId = User.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            Console.WriteLine(loginUserId);
             if (loginUserId == null) {
                 return View();
             }
             var belongingGroups = await _context.GroupMembers.Where(g => g.UserID == loginUserId).ToListAsync();
             // check if the login user belongs to at least one group
-            if (belongingGroups.Count == 0)
+            if (belongingGroups.Count > 0)
             {
-                // if the login user doesn't belong to any groups, redirect to tutorial page
-                return RedirectToAction(nameof(Tutorial));
+                ViewData["IsBelongToGroup"] = true;
             }
-            else
-            {
-                // reffered to this page https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ef/language-reference/method-based-query-syntax-examples-filtering
-                var task = await _context.Tasks.Include(t => t.Group).Include(t => t.User).Where(t => t.User.Id == loginUserId && t.Done == false).OrderBy(t => t.Deadline).ToListAsync();
-                return View(task);
-            }
+            
+            // reffered to this page https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ef/language-reference/method-based-query-syntax-examples-filtering
+            var task = await _context.Tasks.Include(t => t.Group).Include(t => t.User).Where(t => t.User.Id == loginUserId && t.Done == false).OrderBy(t => t.Deadline).ToListAsync();
+            return View(task);
         }
 
         public IActionResult Tutorial()

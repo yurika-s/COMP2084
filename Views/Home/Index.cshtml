@@ -10,65 +10,75 @@
     {
     <div class="pt-2">
         <h1 class="display-4 text-center">Your Tasks Not Completed</h1>
-        <p>
-            <a class="btn btn-info" asp-controller="Tasks" asp-action="Create" asp-route-from="1">Add Task</a>
-        </p>
-        <hr />
-        @if (Model != null && Model?.Count() > 0)
-        {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Done)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Description)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Deadline)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Group)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        @if (ViewBag.IsBelongToGroup){
+            <p>
+                <a class="btn btn-info" asp-controller="Tasks" asp-action="Create" asp-route-from="1">Add Task</a>
+            </p>
+            <hr />
+            @if (Model != null && Model?.Count() > 0)
+            {
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Deadline)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Done)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Group.Name)
-                        </td>
-                        <td>     
-                            <a asp-controller="Tasks" asp-action="Edit" asp-route-id="@item.TaskID" asp-route-from="1">Edit</a> |
-                            <a asp-controller="Tasks" asp-action="Details" asp-route-id="@item.TaskID" asp-route-from="1">Details</a> |
-                            <a asp-controller="Tasks" asp-action="Delete" asp-route-id="@item.TaskID" asp-route-from="1">Delete</a>
-                        </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Done)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Deadline)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Group)
+                        </th>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Deadline)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Done)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Group.Name)
+                            </td>
+                            <td>     
+                                <a asp-controller="Tasks" asp-action="Edit" asp-route-id="@item.TaskID" asp-route-from="1">Edit</a> |
+                                <a asp-controller="Tasks" asp-action="Details" asp-route-id="@item.TaskID" asp-route-from="1">Details</a> |
+                                <a asp-controller="Tasks" asp-action="Delete" asp-route-id="@item.TaskID" asp-route-from="1">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                </table>
+            }
+            else
+            {
+                <p>You have no task for now</p>
+            }
+
         }
         else
         {
-            <p>You have no task for now</p>
+            <p class="text-center">
+                You have no group to belong to for now. Please create a group you share your tasks.
+                <a class="text-warning" asp-action="Tutorial"> Check the tutorial</a>
+            </p>
         }
     </div>
     }
