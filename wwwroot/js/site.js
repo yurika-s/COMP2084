@@ -5,17 +5,19 @@
 // get url path name
 const urlPaths = location.pathname.split('/');
 const controller = urlPaths[1]; 
+const action = urlPaths.length > 2 ? urlPaths[2]: '';
 
 // grab the nav list elements
 const navHome = document.querySelector('ul.navbar-nav li.nav-item:nth-child(1) a');
 const navGroup = document.querySelector('ul.navbar-nav li.nav-item:nth-child(2) a');
 const navTask = document.querySelector('ul.navbar-nav li.nav-item:nth-child(3) a');
+const navTutorial = document.querySelector('ul.navbar-nav li.nav-item:nth-child(4) a');
 
 // remove active class from all nav (reset) 
 navHome?.classList.remove('active');
 navGroup?.classList.remove('active');
 navTask?.classList.remove('active');
-
+navTutorial?.classList.remove('active');
 // add active class to nav based on current page
 switch (controller) {
     case '':
@@ -28,4 +30,8 @@ switch (controller) {
     case 'Tasks':
         navTask?.classList.add('active');
         break;
+}
+
+if (controller == 'Home' && action == 'Tutorial') {
+    navTutorial?.classList.add('active');
 }

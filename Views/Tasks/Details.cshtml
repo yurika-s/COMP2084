@@ -45,11 +45,18 @@
             @Html.DisplayNameFor(model => model.User)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.Id)
+            @Html.DisplayFor(model => model.User.UserName)
         </dd>
     </dl>
 </div>
 <div>
-    <button type="button" class="btn btn-warning"><a class="nav-link" asp-action="Edit" asp-route-id="@Model?.TaskID">Edit</a></button> |
-    <a asp-action="Index">Back to List</a>
+    <button type="button" class="btn btn-info"><a class="nav-link" asp-action="Edit" asp-route-id="@Model?.TaskID" asp-route-from="@ViewBag.PreviousPage">Edit</a></button> |
+    @if (ViewBag.PreviousPage == 1)
+    {
+        <a asp-controller="Home" asp-action="Index">Back to List</a>
+    }
+    else
+    {
+        <a asp-action="Index">Back to List</a>
+    }
 </div>
