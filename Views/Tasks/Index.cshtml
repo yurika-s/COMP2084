@@ -2,10 +2,14 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     String[] tHeads = ["Done", "Name", "Description", "Deadline", "Assignee", ""];
+    int i1 = 0;
+    int i2 = 0;
+
 }
 
 <h1 class="display-4 text-center">Tasks</h1>
-@if (ViewBag.IsShow){
+@if (ViewBag.IsShow)
+{
     <p>
         <a class="btn btn-info" asp-action="Create">Create New</a>
     </p>
@@ -13,74 +17,74 @@
 
     <!-- Group Tab -->
     <ul class="nav nav-tabs" role="tablist">
-    @foreach (KeyValuePair<string, dynamic> entry in ViewBag.Tasks)
-    {
-        <li class="nav-item" role="presentation">
-            <a class="nav-link" data-bs-toggle="tab" href="#@entry.Key.Trim()" aria-selected="true" role="tab">@entry.Key</a>
-        </li>    
-    }
+        @foreach (KeyValuePair<string, dynamic> entry in ViewBag.Tasks)
+        {
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" data-bs-toggle="tab" href="#tab@(i1 += 1)" aria-selected="true" role="tab">@entry.Key</a>
+            </li>
+        }
     </ul>
 
     <!-- Tab Contents -->
     <div id="myTabContent" class="tab-content mt-3">
-        @if (ViewBag.Tasks.Count >0)
+        @if (ViewBag.Tasks.Count > 0)
         {
             @foreach (KeyValuePair<string, dynamic> entry in ViewBag.Tasks)
             {
-            <div class="tab-pane fade" id="@entry.Key.Trim()" role="tabpanel">
-                @if (entry.Value.Count == 0)
-                {
-                    <div>No Task</div>
-                }
-                else
-                {
-                    <table class="table mb-5">
-                        <thead>
-                            <tr>
-                                @foreach (String head in tHeads)
+                <div class="tab-pane fade" id="tab@(i2 += 1)" role="tabpanel">
+                    @if (entry.Value.Count == 0)
+                    {
+                        <div>No Task</div>
+                    }
+                    else
+                    {
+                        <table class="table mb-5">
+                            <thead>
+                                <tr>
+                                    @foreach (String head in tHeads)
+                                    {
+                                        <th>@head</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in entry.Value)
                                 {
-                                <th>@head</th>
-                                }
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var task in entry.Value)
-                            {
-                            <tr>
-                                <td>
-                                @if (task.Done)
-                                {
-                                    <input class="check-box" disabled="disabled" type="checkbox" checked>
+                                    <tr>
+                                        <td>
+                                            @if (task.Done)
+                                            {
+                                                <input class="check-box" disabled="disabled" type="checkbox" checked>
 
+                                            }
+                                            else
+                                            {
+                                                <input class="check-box" disabled="disabled" type="checkbox">
+                                            }
+                                        </td>
+                                        <td>
+                                            @task.Name
+                                        </td>
+                                        <td>
+                                            @task.Description
+                                        </td>
+                                        <td>
+                                            @task.Deadline
+                                        </td>
+                                        <td>
+                                            @task.User.UserName
+                                        </td>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@task.TaskID">Edit</a> |
+                                            <a asp-action="Details" asp-route-id="@task.TaskID">Details</a> |
+                                            <a asp-action="Delete" asp-route-id="@task.TaskID">Delete</a>
+                                        </td>
+                                    </tr>
                                 }
-                                else
-                                {
-                                    <input class="check-box" disabled="disabled" type="checkbox">
-                                }
-                                </td>
-                                <td>
-                                    @task.Name
-                                </td>
-                                <td>
-                                    @task.Description
-                                </td>
-                                <td>
-                                    @task.Deadline
-                                </td>
-                                <td>
-                                    @task.User.UserName
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@task.TaskID">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@task.TaskID">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@task.TaskID">Delete</a>
-                                </td>
-                            </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-             </div>
+                            </tbody>
+                        </table>
+                    }
+                </div>
             }
         }
         else
