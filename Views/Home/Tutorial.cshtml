@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Turotial";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="display-4 text-center"> Tutorial</h1>
+
+<h2>STEP 1: Create your group</h2>
+<p>One of your group members need to create your group to manage and share your housework tasks.</p>
+
+<ol>
+    <li>
+        Go to Group page to click "Groups" on the menu bar or click
+        <a class="text-warning" asp-controller="Groups" asp-action="Create">here</a>
+    </li>
+    <img class="w-50 mb-3" src="~/images/tutorial/step1and2-1.png" alt="screenshot how to creat a group 1" />
+    <li>Hit the "Create New" button</li>
+    <img class="w-75 border" src="~/images/tutorial/step1-2.png" alt="screenshot how to creat a group 2" />
+</ol>
+
+
+<h2 class="mt-4">STEP 2: Add members</h2>
+<p>Once you created your group, add your account and your group members' account to the group.</p>
+
+<ol>
+    <li>
+        Go to Group page clicking "Groups" on the menu bar or click
+        <a class="text-warning" asp-controller="Groups" asp-action="Index">here</a>
+    </li>
+    <img class="w-50 mb-2" src="~/images/tutorial/step1and2-1.png" alt="screenshot how to add a group member 1" />
+    <li>Click "Details" text of the group you created</li>
+    <img class="w-75 border border mb-2" src="~/images/tutorial/step2-2.png" alt="screenshot how to add a group member 2" />
+    <li>Hit the "Add Member" button at the bottom of the page</li>
+    <img class="w-75 border border mb-3" src="~/images/tutorial/step2-3.png" alt="screenshot how to add a group member 3" />
+    <li>Select your / your group members' user id on each options list</li>
+    <img class="w-75 border border " src="~/images/tutorial/step2-4.png" alt="screenshot how to add a group member 4" />
+</ol>
+<p class="text-danger">** If you have a group member who has already created your group, ask them to add your account to the group.</p>
+
+<h2 class="mt-4">STEP 3: Add tasks</h2>
+<ol>
+    <li>
+        Go to Task page clicking "Tasks" on the menu bar or click
+        <a class="text-warning" asp-controller="Tasks" asp-action="Index">here</a>
+    </li>
+    <img class="w-50 mb-2" src="~/images/tutorial/step3-1.png" alt="screenshot how to add a task 1" />
+    <li>Hit "Create New" button</li>
+    <img class="w-75 border border mb-3" src="~/images/tutorial/step3-2.png" alt="screenshot how to add a task 2" />
+</ol>
+
+<p class="text-danger">** If you belong to more than two groups, you can switch groups by clicking a group name on the tab menu.</p>
+<img />

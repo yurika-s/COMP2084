@@ -26,8 +26,8 @@ namespace HouseworkManager.Controllers
             // reffered to the page https://community.auth0.com/t/getting-currently-logged-user-in-web-api/6810/9
             string loginUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
+            // retrieve groups that the login user created
             var adminstratingGroups = await _context.Groups.Where(g => g.AdministratorID == loginUserId).ToListAsync();
-
             ViewData["AdminstratingGropus"] = adminstratingGroups;
 
 
@@ -37,7 +37,8 @@ namespace HouseworkManager.Controllers
             {
                 groupIds.Add(item.GroupID);
             }
-            var groups = await _context.Groups.Where(g => groupIds.Contains(g.GroupID)).ToListAsync();
+            // filter group that user belongs to but did't create
+            var groups = await _context.Groups.Where(g => groupIds.Contains(g.GroupID)).Where(g=> g.AdministratorID != loginUserId).ToListAsync();
 
             return View(groups);
         }
@@ -57,8 +58,11 @@ namespace HouseworkManager.Controllers
                 return NotFound();
             }
 
-            var members = _context.GroupMembers.Include(g => g.Group).Include(g => g.User).Where(g => g.GroupID == id);
-            ViewBag.groupMembers = members;
+            var members = await _context.GroupMembers.Include(g => g.Group).Include(g => g.User).Where(g => g.GroupID == id).ToListAsync();
+            var adminUser = await _context.Users.FirstOrDefaultAsync(g => g.Id == @group.AdministratorID);
+            ViewData["GroupMembers"] = members;
+            ViewData["Administrator"] = adminUser;
+
             return View(@group);
         }
 
@@ -153,6 +157,9 @@ namespace HouseworkManager.Controllers
             {
                 return NotFound();
             }
+            var adminUser = await _context.Users.FirstOrDefaultAsync(g => g.Id == @group.AdministratorID);
+            ViewData["Administrator"] = adminUser;
+
 
             return View(@group);
         }

@@ -9,6 +9,7 @@ using HouseworkManager.Data;
 using HouseworkManager.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.CodeAnalysis;
+using System.Security.Claims;
 
 namespace HouseworkManager.Controllers
 {
@@ -32,9 +33,11 @@ namespace HouseworkManager.Controllers
         // GET: GroupMembers/Create
         public IActionResult Create(int? groupId)
         {
+            string loginUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             ViewData["GroupID"] = new SelectList(_context.Groups, "GroupID", "Name");
             ViewData["UserID"] = new SelectList(_context.Users, "Id", "Id");
             ViewData["DetailsGroupID"] = groupId;
+            ViewData["LoginUserID"] = loginUserId;
 
             return View();
         }
