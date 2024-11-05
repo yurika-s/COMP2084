@@ -7,7 +7,7 @@
 
 <h1 class="display-4 text-center">Groups</h1>
 <div class="d-flex">
-    <h4 class="mt-2 me-3">Groups you manage</h4>
+    <h4 class="mt-2 me-3">Groups You Created</h4>
     <button type="button" class="btn btn-info btn-sm"><a class="nav-link" asp-action="Create">Create New</a></button>
 </div>
 <hr />
@@ -37,7 +37,7 @@
     </div>
 }
 
-<h4 class="mt-5">Groups you belong to</h4>
+<h4 class="mt-5">Other Groups You Belong to</h4>
 <hr />
 @if (Model != null && Model?.Count() > 0)
 {

@@ -8,13 +8,20 @@
 
     @if (SignInManager.IsSignedIn(User))
     {
-    <div class="text-center pt-2">
-        <h1 class="display-4">Your Tasks</h1>
+    <div class="pt-2">
+        <h1 class="display-4 text-center">Your Tasks Not Completed</h1>
+        <p>
+            <a class="nav-link" asp-controller="Tasks" asp-action="Create" asp-route-from="1"><button type="button" class="btn btn-info">Add Task</button></a>
+        </p>
+        <hr />
         @if (Model != null && Model?.Count() > 0)
         {
         <table class="table">
             <thead>
                 <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Done)
+                    </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Name)
                     </th>
@@ -23,9 +30,6 @@
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Deadline)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Done)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Group)
@@ -52,10 +56,10 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Group.Name)
                         </td>
-                        <td>
-                            <a asp-controller="Tasks" asp-action="Edit" asp-route-id="@item.TaskID">Edit</a> |
-                            <a asp-controller="Tasks" asp-action="Details" asp-route-id="@item.TaskID">Details</a> |
-                            <a asp-controller="Tasks" asp-action="Delete" asp-route-id="@item.TaskID">Delete</a>
+                        <td>     
+                            <a asp-controller="Tasks" asp-action="Edit" asp-route-id="@item.TaskID" asp-route-from="1">Edit</a> |
+                            <a asp-controller="Tasks" asp-action="Details" asp-route-id="@item.TaskID" asp-route-from="1">Details</a> |
+                            <a asp-controller="Tasks" asp-action="Delete" asp-route-id="@item.TaskID" asp-route-from="1">Delete</a>
                         </td>
                     </tr>
                 }
@@ -64,18 +68,24 @@
         }
         else
         {
-            <p>You have no task for now.</p>
+            <p>You have no task for now</p>
         }
     </div>
     }
     else
     {
-    <div class="text-center  pt-5">
+    <div class="text-center py-5">
         <h1 class="display-4">Welcome to Housework Manager</h1>
         <h3>This is a great tool to manage your houseworks!</h3>
         <div>
-            <button type="button" class="btn btn-danger btn-lg"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register Now!</a></button>
-            <button type="button" class="btn btn-success btn-lg"><a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a></button>
+            <a class="btn btn-danger btn-lg" asp-area="Identity" asp-page="/Account/Register">Register Now!</a>
+            <a class="btn btn-success btn-lg" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </div>
+        <div class="w-75 mx-auto mt-5">
+            <h4 class="text-start">Group Management</h4>
+            <img class="w-100 border mb-3" src="~/images/home/groups.png" alt="Alternate Text" />
+            <h4 class="text-start mt-3">Task Management</h4>
+            <img class="w-100 border border " src="~/images/home/tasks.png" alt="Alternate Text" />
         </div>
     </div>
     }
