@@ -11,7 +11,7 @@
     <div class="pt-2">
         <h1 class="display-4 text-center">Your Tasks Not Completed</h1>
         <p>
-            <a class="nav-link" asp-controller="Tasks" asp-action="Create" asp-route-from="1"><button type="button" class="btn btn-info">Add Task</button></a>
+            <a class="btn btn-info" asp-controller="Tasks" asp-action="Create" asp-route-from="1">Add Task</a>
         </p>
         <hr />
         @if (Model != null && Model?.Count() > 0)
