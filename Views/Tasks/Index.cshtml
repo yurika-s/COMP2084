@@ -16,7 +16,7 @@
     @foreach (KeyValuePair<string, dynamic> entry in ViewBag.Tasks)
     {
         <li class="nav-item" role="presentation">
-            <a class="nav-link" data-bs-toggle="tab" href="#@entry.Key" aria-selected="true" role="tab">@entry.Key</a>
+            <a class="nav-link" data-bs-toggle="tab" href="#@entry.Key.Trim()" aria-selected="true" role="tab">@entry.Key</a>
         </li>    
     }
     </ul>
@@ -27,7 +27,7 @@
         {
             @foreach (KeyValuePair<string, dynamic> entry in ViewBag.Tasks)
             {
-            <div class="tab-pane fade" id="@entry.Key" role="tabpanel">
+            <div class="tab-pane fade" id="@entry.Key.Trim()" role="tabpanel">
                 @if (entry.Value.Count == 0)
                 {
                     <div>No Task</div>
