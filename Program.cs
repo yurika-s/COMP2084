@@ -20,6 +20,14 @@ namespace HouseworkManager
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddAuthentication()
+               .AddGitHub(options =>
+               {
+                   options.ClientSecret = "cc3a8af402498c55419b1253f8063d24e932dddb";
+                   options.ClientId = "Ov23li4uLy5GYPmdNE0c";
+                   options.CallbackPath = "/signin-github";
+               });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
