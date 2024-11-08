@@ -28,3 +28,6 @@ Family members and persons who live in shared houses.
 - Redirecting to different actions in another controller after process in an action
   - GroupMembers (create/edit/delete): it redirects to Groups/Details page the user opened before the action
 - On Tasks create/edit/delete pages, return to different pages when clicking on "back to list" depends on where user came from: Home or Tasks Index page
+
+## Lab 3: GitHub Login
+Implemented register and login with GitHub account
