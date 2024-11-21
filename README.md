@@ -31,3 +31,11 @@ Family members and persons who live in shared houses.
 
 ## Lab 3: GitHub Login
 Implemented register and login with GitHub account
+
+## Assignment 3
+- Created an account: prof@gc.ca / Test123$
+- Make all Methods and View links where users can add, edit, or delete data PRIVATE, so only authenticated users can access them  
+ -> It has already been implemented in Assignment 2
+- On your Index views, anonymous users can view the list of data but cannot see the Create, Edit, or Delete links
+
+- Enable Social Authentication with Google
