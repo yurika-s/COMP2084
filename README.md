@@ -38,4 +38,4 @@ Implemented register and login with GitHub account
  -> It has already been implemented in Assignment 2
 - On your Index views, anonymous users can view the list of data but cannot see the Create, Edit, or Delete links
 
-- Enable Social Authentication with Google
+- Enabled Social Authentication with Google
