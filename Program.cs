@@ -21,12 +21,19 @@ namespace HouseworkManager
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddAuthentication()
-               .AddGitHub(options =>
-               {
-                   options.ClientSecret = "cc3a8af402498c55419b1253f8063d24e932dddb";
-                   options.ClientId = "Ov23li4uLy5GYPmdNE0c";
-                   options.CallbackPath = "/signin-github";
-               });
+              .AddGoogle(options =>
+              {
+                  IConfigurationSection googleAuthNSection =
+                  builder.Configuration.GetSection("Authentication:Google");
+                  options.ClientId = googleAuthNSection["ClientId"];
+                  options.ClientSecret = googleAuthNSection["ClientSecret"];
+              })
+              .AddGitHub(options =>
+              {
+                  options.ClientSecret = "cc3a8af402498c55419b1253f8063d24e932dddb";
+                  options.ClientId = "Ov23li4uLy5GYPmdNE0c";
+                  options.CallbackPath = "/signin-github";
+              });
 
             var app = builder.Build();
 
