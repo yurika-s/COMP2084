@@ -37,5 +37,5 @@ Implemented register and login with GitHub account
 
 - [x] Create an account: prof@gc.ca / Test123$
 - [x] Make all Methods and View links where users can add, edit, or delete data PRIVATE, so only authenticated users can access them  
-- [ ] On your Index views, anonymous users can view the list of data but cannot see the Create, Edit, or Delete links
+- [x] On your Index views, anonymous users can view the list of data but cannot see the Create, Edit, or Delete links
 - [x] Create a new key and Enabled Social Authentication with Google 
