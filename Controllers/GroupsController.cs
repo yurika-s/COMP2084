@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HouseworkManager.Data;
 using HouseworkManager.Models;
+using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 namespace HouseworkManager.Controllers
 {
+    [Authorize]
     public class GroupsController : Controller
     {
         private readonly ApplicationDbContext _context;
