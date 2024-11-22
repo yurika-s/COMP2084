@@ -15,6 +15,7 @@ namespace HouseworkManager.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly string sampleUserId = "98955531-f7fe-4152-bb49-f439305c7721";
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
@@ -28,6 +29,8 @@ namespace HouseworkManager.Controllers
             string loginUserId = User.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
             if (loginUserId == null) {
+                // retrieve sample data
+                ViewData["SampleTasks"] = await _context.Tasks.Include(t => t.Group).Where(t => t.UserID == sampleUserId).ToListAsync();
                 return View();
             }
             var belongingGroups = await _context.GroupMembers.Where(g => g.UserID == loginUserId).ToListAsync();
