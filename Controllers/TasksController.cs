@@ -12,7 +12,7 @@ using System.Security.Claims;
 
 namespace HouseworkManager.Controllers
 {
-    [Authorize]
+   
     public class TasksController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,6 +23,7 @@ namespace HouseworkManager.Controllers
         }
 
         // GET: Tasks
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             string loginUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
@@ -79,6 +80,7 @@ namespace HouseworkManager.Controllers
         }
 
         // GET: Tasks/Create
+        [Authorize]
         public IActionResult Create(int? from)
         {
             string loginUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
@@ -121,6 +123,7 @@ namespace HouseworkManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("TaskID,Name,Description,Deadline,Done,GroupID,UserID")] Models.Task task, int? from)
         {
             _context.Add((Models.Task)task);
@@ -141,6 +144,7 @@ namespace HouseworkManager.Controllers
         }
 
         // GET: Tasks/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id, int? from)
         {
             if (id == null)
@@ -165,6 +169,7 @@ namespace HouseworkManager.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("TaskID,Name,Description,Deadline,Done,GroupID,UserID")] Models.Task task, int? from)
         {
@@ -203,6 +208,7 @@ namespace HouseworkManager.Controllers
         }
 
         // GET: Tasks/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id, int? from)
         {
             if (id == null)
@@ -226,6 +232,7 @@ namespace HouseworkManager.Controllers
 
         // POST: Tasks/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id, int? from)
         {
